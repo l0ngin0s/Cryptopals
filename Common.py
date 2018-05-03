@@ -117,3 +117,13 @@ def aes_cbc_decipher(cipher_text, key, iv):
         vector = cipher_text_block
 
     return plain_text
+
+
+def is_ecb_detected(cipher_text, chunk_size):
+    blocks = [cipher_text[i * chunk_size:i * chunk_size + chunk_size] for i in range(len(cipher_text) / chunk_size)]
+
+    for chunk in range(len(blocks)):
+        for next_chunk in range(chunk + 1, len(blocks)):
+            if blocks[chunk] in blocks[next_chunk]:
+                return True
+    return False
